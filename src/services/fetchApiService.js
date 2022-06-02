@@ -1,8 +1,8 @@
 class FetchApiService {
   constructor() {
-    this.baseAPI = "https://api.realworld.io/api";
+    this.baseAPI = "https://kata.academy:8021/api";
 
-    this.artilesPerPage = 5;
+    this.artilesPerPage = 20;
   }
 
   async sendRequest(url, value) {
@@ -28,6 +28,9 @@ class FetchApiService {
     return this.sendRequest(
       `${this.baseAPI}/articles?limit=${this.artilesPerPage}`
     );
+  }
+  getArticle(slug) {
+    return this.sendRequest(`${this.baseAPI}/articles/${slug}`);
   }
 }
 

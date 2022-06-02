@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import classes from "./Articles.module.scss";
 import format from "date-fns/format";
 import { useEffect, useState } from "react";
@@ -6,9 +7,8 @@ import FetchApiService from "../../services/fetchApiService";
 function Articles() {
   const [articles, setArticles] = useState([]);
 
-  const fetchApiService = new FetchApiService();
-
   useEffect(() => {
+    const fetchApiService = new FetchApiService();
     fetchApiService.getArticles().then((res) => setArticles(res.articles));
   }, []);
 
@@ -23,11 +23,14 @@ function Articles() {
   console.log("", articles);
   const artticlesList = articles.map((article, i) => {
     const { username, image } = article.author;
-    const { createdAt, title, favoritesCount, description, tagList } = article;
+    const { createdAt, title, favoritesCount, description, tagList, slug } =
+      article;
     return (
-      <div className={classes.articleBlock} key={i}>
+      <div className={classes.articleBlock} key={slug}>
         <div className={classes.header}>
-          <h1 className={classes.title}>{title}</h1>
+          <Link className={classes.title} to={`/articles/${slug}`}>
+            {title}
+          </Link>
           <button className={classes.like}>{favoritesCount}</button>
           <div className={classes.info}>
             <div className={classes.text}>

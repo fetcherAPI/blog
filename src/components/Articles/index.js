@@ -1,3 +1,4 @@
 import Articles from "./Articles";
+import Article from "./Article";
 
-export default Articles;
+export { Articles, Article };
