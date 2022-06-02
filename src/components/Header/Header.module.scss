@@ -1,0 +1,37 @@
+.header {
+  background-color: #fff;
+  height: 80px;
+  width: 100%;
+  padding: 0 22px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.logo {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 28px;
+}
+.authorizationBlock {
+  display: flex;
+  gap: 19px;
+}
+.btn {
+  cursor: pointer;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 28px;
+  background: transparent;
+  border: none;
+  width: 109px;
+  height: 51px;
+
+  &:active,
+  &:hover {
+    color: #52c41a;
+    border: 1px solid #52c41a;
+    border-radius: 5px;
+  }
+}
