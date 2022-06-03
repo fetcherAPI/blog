@@ -29,9 +29,9 @@ class FetchApiService {
       `${this.baseAPI}/articles?limit=${this.artilesPerPage}`
     );
   }
-  getArticle(slug) {
+  getArticle = (slug) => {
     return this.sendRequest(`${this.baseAPI}/articles/${slug}`);
-  }
+  };
 }
 
 export default FetchApiService;
