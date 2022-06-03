@@ -1,8 +1,7 @@
 class FetchApiService {
   constructor() {
     this.baseAPI = "https://kata.academy:8021/api";
-
-    this.artilesPerPage = 20;
+    this.artilesPerPage = 10;
   }
 
   async sendRequest(url, value) {
@@ -34,4 +33,4 @@ class FetchApiService {
   };
 }
 
-export default FetchApiService;
+export default new FetchApiService();

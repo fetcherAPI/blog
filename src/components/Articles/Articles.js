@@ -1,27 +1,22 @@
+import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
-import classes from "./Articles.module.scss";
-import format from "date-fns/format";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+import { setArticles } from "../../redux/slices/articlesSlice";
 import FetchApiService from "../../services/fetchApiService";
+import { getDate } from "../../services/getDateService";
+import classes from "./Articles.module.scss";
 
 function Articles() {
-  const [articles, setArticles] = useState([]);
+  const articles = useSelector((state) => state.articlesSlice.articles);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    const fetchApiService = new FetchApiService();
-    fetchApiService.getArticles().then((res) => setArticles(res.articles));
+    FetchApiService.getArticles().then((res) =>
+      dispatch(setArticles(res.articles))
+    );
   }, []);
 
-  const getDate = (dateString) => {
-    try {
-      return format(new Date(dateString), "MMMM dd, yyyy");
-    } catch (error) {
-      return "Дата неизвестна";
-    }
-  };
-
-  console.log("", articles);
-  const artticlesList = articles.map((article, i) => {
+  const artticlesList = articles.map((article) => {
     const { username, image } = article.author;
     const { createdAt, title, favoritesCount, description, tagList, slug } =
       article;
