@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import classes from "./Header.module.scss";
+import RouteService from "../../services/routeService";
 
 function Header() {
   return (
@@ -7,10 +8,13 @@ function Header() {
       <Link className={classes.logo} to='/articles'>
         Realworld Blog
       </Link>
-
       <div className={classes.authorizationBlock}>
-        <button className={classes.btn}>Sign In</button>
-        <button className={classes.btn}>Sign Up</button>
+        <Link to={RouteService.signInRoute} className={classes.btn}>
+          Sign In
+        </Link>
+        <Link to={RouteService.signUpRoute} className={classes.btn}>
+          Sign Up
+        </Link>
       </div>
     </div>
   );

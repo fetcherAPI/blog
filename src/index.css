@@ -12,6 +12,12 @@ body {
 }
 
 button {
+  cursor: pointer;
   background: transparent;
   border: none;
+  outline: none;
+}
+
+input {
+  outline: none;
 }

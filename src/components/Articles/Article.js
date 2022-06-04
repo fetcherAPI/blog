@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { memo, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import FetchApiService from "../../services/fetchApiService";
@@ -12,11 +12,11 @@ function Article() {
 
   useEffect(() => {
     FetchApiService.getArticle(slug).then((res) => dispatch(setArticle(res)));
-  }, [slug]);
+  }, []);
 
   return (
     <div className={classes.singleArticle}>
-      <h1>{article.article.slug}</h1>
+      <h1>{article?.article?.slug}</h1>
       <div className={classes.markDown}>
         Lorem, ipsum dolor sit amet consectetur adipisicing elit. Tenetur
         sapiente quaerat iure consequatur neque pariatur omnis enim quidem.
@@ -27,4 +27,4 @@ function Article() {
   );
 }
 
-export default Article;
+export default memo(Article);

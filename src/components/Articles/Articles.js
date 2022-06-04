@@ -1,19 +1,28 @@
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { setArticles } from "../../redux/slices/articlesSlice";
 import FetchApiService from "../../services/fetchApiService";
 import { getDate } from "../../services/getDateService";
 import classes from "./Articles.module.scss";
+import { Spiner } from "../Spiner/Spiner";
 
 function Articles() {
   const articles = useSelector((state) => state.articlesSlice.articles);
   const dispatch = useDispatch();
 
+  const [isLoading, setIsLoading] = useState(true);
+
   useEffect(() => {
-    FetchApiService.getArticles().then((res) =>
-      dispatch(setArticles(res.articles))
-    );
+    setIsLoading(true);
+    FetchApiService.getArticles()
+      .then((res) => dispatch(setArticles(res.articles)))
+      .catch((error) => {
+        console.log("error", error);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
   }, []);
 
   const artticlesList = articles.map((article) => {
@@ -51,7 +60,9 @@ function Articles() {
     );
   });
 
-  return <div className={classes.list}>{artticlesList}</div>;
+  return (
+    <div className={classes.list}>{isLoading ? <Spiner /> : artticlesList}</div>
+  );
 }
 
 export default Articles;
