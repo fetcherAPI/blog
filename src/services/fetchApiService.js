@@ -11,16 +11,18 @@ class FetchApiService {
           headers: {
             "Content-Type": "application/json;charset=utf-8",
           },
-          body: JSON.stringify({
-            value,
-          }),
+          body: JSON.stringify(value),
         }
       : {};
     try {
       const res = await fetch(url, sendData);
-      return await res.json();
+
+      if (res.ok) {
+        return await res.json();
+      }
+      throw new Error(res.status);
     } catch (error) {
-      throw new Error(`fjksdljdlkfjkl`);
+      throw new Error(error);
     }
   }
   getArticles() {
@@ -31,6 +33,18 @@ class FetchApiService {
   getArticle = (slug) => {
     return this.sendRequest(`${this.baseAPI}/articles/${slug}`);
   };
+
+  createUser(data) {
+    console.log(data);
+    return this.sendRequest(
+      `${this.baseAPI}/users`,
+      {
+        user: data,
+      },
+      undefined,
+      "post"
+    );
+  }
 }
 
 export default new FetchApiService();

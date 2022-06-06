@@ -4,9 +4,14 @@ import classes from "./sing.module.scss";
 import classnames from "classnames";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { setAuth } from "../../redux/slices/authSlice";
 
 export default function SingIn() {
   const [password, setPassword] = useState("");
+
+  const isAuth = useSelector((state) => state.authSlice.isAuth);
+  const dispatch = useDispatch();
 
   const {
     register,
@@ -19,6 +24,7 @@ export default function SingIn() {
 
   const onSubmit = (data) => {
     alert(JSON.stringify(data));
+    dispatch(setAuth(true));
     reset();
   };
 
@@ -31,6 +37,7 @@ export default function SingIn() {
           Email address
           <br />
           <input
+            autoComplete='on'
             type='email'
             placeholder='Email address'
             className={classnames(
@@ -53,6 +60,7 @@ export default function SingIn() {
           Password
           <br />
           <input
+            autoComplete='on'
             type='password'
             placeholder='password'
             className={classnames(
@@ -73,7 +81,7 @@ export default function SingIn() {
             {errors?.password && <p>{errors?.password?.message}</p>}
           </div>
         </label>
-        <input type='submit' className={classes.submit} />
+        <input autoComplete='on' type='submit' className={classes.submit} />
       </form>
       <span className={classes.haveAccount}>
         Don’t have an account?{" "}

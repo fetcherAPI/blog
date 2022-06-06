@@ -1,19 +1,32 @@
-import RouteService from "../../services/routeService";
-import { useForm } from "react-hook-form";
-import classes from "./sing.module.scss";
-import classnames from "classnames";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import { useSelector, useDispatch } from "react-redux";
+import classnames from "classnames";
+import { Alert } from "antd";
+import "antd/dist/antd.css";
+import RouteService from "../../services/routeService";
+import FetchApiService from "../../services/fetchApiService";
+
+import classes from "./sing.module.scss";
+import successImg from "../../assests/img/checkbox.png";
 
 export default function SingUp() {
   const [password, setPassword] = useState("");
   const [passwordRepeat, setPasswordRepeat] = useState("");
   const [isSingle, setIsSingle] = useState(false);
-  const [agree, setAgree] = useState(false);
+  const [isAgree, setIsAgree] = useState(false);
+  const [isSingedUp, setIsSingedUp] = useState(false);
+  const [isError, setIsError] = useState(false);
+
+  const isAuth = useSelector((state) => state.authSlice.isAuth);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     password === passwordRepeat ? setIsSingle(true) : setIsSingle(false);
-  }, [passwordRepeat, password]);
+  }, [passwordRepeat]);
+
+  console.log(isAuth);
 
   const {
     register,
@@ -24,19 +37,52 @@ export default function SingUp() {
     mode: "all",
   });
 
-  const onSubmit = (data) => {
-    alert(JSON.stringify(data));
+  const onSubmit = async (data) => {
+    const { userName, emailAddres, password } = data;
+
+    const newUser = {
+      username: userName,
+      email: emailAddres,
+      password,
+    };
+
+    FetchApiService.createUser(newUser)
+      .then((res) => {
+        if (res && res.user) {
+          setIsSingedUp(true);
+
+          return;
+        }
+        if (res && res.isError) {
+          setIsError(true);
+        }
+      })
+      .catch((err) => {
+        setIsError(true);
+        console.log("isError", err, isError);
+      });
     reset();
   };
 
-  return (
-    <div className={classes.singUpBlock}>
+  const successSigned = isSingedUp && (
+    <div className={classes.succsses}>
+      <h1>You are singed up successfully</h1>
+      <img src={successImg} alt='succes logo' />
+      <p>
+        Please <Link to={RouteService.signInRoute}>Sign In</Link>
+      </p>
+    </div>
+  );
+
+  const registerForm = (
+    <>
       <form className={classes.form} onSubmit={handleSubmit(onSubmit)}>
         <h1 className={classes.title}>Create new user</h1>
         <label className={classes.label}>
           Username
           <br />
           <input
+            autoComplete='on'
             placeholder='Username'
             className={classnames(
               classes.input,
@@ -58,6 +104,7 @@ export default function SingUp() {
           Email address
           <br />
           <input
+            autoComplete='on'
             type='email'
             placeholder='Email address'
             className={classnames(
@@ -76,6 +123,7 @@ export default function SingUp() {
           Password
           <br />
           <input
+            autoComplete='on'
             type='password'
             placeholder='password'
             className={classnames(
@@ -100,6 +148,7 @@ export default function SingUp() {
           Repeat password
           <br />
           <input
+            autoComplete='on'
             type='password'
             placeholder='Password'
             className={classnames(
@@ -124,18 +173,19 @@ export default function SingUp() {
             )}
           </div>
         </label>
-        <label onChange={() => setAgree(!agree)}>
+        <label onChange={() => setIsAgree(!isAgree)}>
           <input
+            autoComplete='on'
             type='checkbox'
             className={classes.checkbox}
             {...register("agreement", { required: "agreement is required" })}
           />{" "}
-          I agree to the processing of my personal information
+          I isAgree to the processing of my personal information
           <div className={classes.errorBlock}>
             {errors?.agreement && <p>{errors?.agreement?.message}</p>}
           </div>
         </label>
-        <button type='submit' className={classes.submit} disabled={!agree}>
+        <button type='submit' className={classes.submit} disabled={!isAgree}>
           Create
         </button>
       </form>
@@ -145,6 +195,21 @@ export default function SingUp() {
           Sign in
         </Link>
       </span>
+    </>
+  );
+
+  return (
+    <div className={classes.singUpBlock}>
+      {isError ? (
+        <Alert
+          message='Error'
+          description='This user name or email already taken.'
+          type='error'
+          showIcon
+          closable
+        />
+      ) : null}
+      {isSingedUp ? successSigned : registerForm}
     </div>
   );
 }
