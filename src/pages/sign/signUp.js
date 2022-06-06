@@ -1,10 +1,8 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import { useSelector, useDispatch } from "react-redux";
 import classnames from "classnames";
 import { Alert } from "antd";
-import "antd/dist/antd.css";
 import RouteService from "../../services/routeService";
 import FetchApiService from "../../services/fetchApiService";
 
@@ -19,14 +17,9 @@ export default function SingUp() {
   const [isSingedUp, setIsSingedUp] = useState(false);
   const [isError, setIsError] = useState(false);
 
-  const isAuth = useSelector((state) => state.authSlice.isAuth);
-  const dispatch = useDispatch();
-
   useEffect(() => {
     password === passwordRepeat ? setIsSingle(true) : setIsSingle(false);
   }, [passwordRepeat]);
-
-  console.log(isAuth);
 
   const {
     register,
@@ -50,7 +43,6 @@ export default function SingUp() {
       .then((res) => {
         if (res && res.user) {
           setIsSingedUp(true);
-
           return;
         }
         if (res && res.isError) {
@@ -133,8 +125,8 @@ export default function SingUp() {
             {...register("password", {
               required: "password is required",
               minLength: {
-                value: 8,
-                message: "min 8 char",
+                value: 6,
+                message: "Your password needs to be at least 6 characters.",
               },
             })}
             value={password}
