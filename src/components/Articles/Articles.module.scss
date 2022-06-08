@@ -1,3 +1,5 @@
+@import "../../scss/variables.scss";
+
 .list {
   padding: 26px;
   width: 90%;
@@ -14,11 +16,11 @@
   min-height: 140px;
   padding: 15px;
   width: 100%;
-  box-shadow: -1px 3px 22px -4px rgba(34, 60, 80, 0.2);
+  box-shadow: $box-shadow;
   display: flex;
   flex-direction: column;
   row-gap: 10px;
-  color: black;
+  color: $main-text-color;
 }
 
 .like {
@@ -41,7 +43,7 @@
   cursor: pointer;
   font-size: 20px;
   line-height: 28px;
-  color: #1890ff;
+  color: $main-color;
   margin-right: 13px;
 }
 .header {
@@ -69,7 +71,7 @@
   font-weight: 400;
   font-size: 12px;
   line-height: 22px;
-  color: #8c8c8c;
+  color: $gray-color;
 }
 .avatar {
   width: 40px;
@@ -81,11 +83,11 @@
 }
 .tag {
   display: inline;
-  border: 1px solid rgba(0, 0, 0, 0.5);
+  border: 1px solid $main-text-color;
   border-radius: 2px;
   font-size: 12px;
   line-height: 15px;
-  color: rgba(0, 0, 0, 0.5);
+  color: $main-text-color;
   padding: 5px;
   margin-right: 5px;
 }

@@ -14,9 +14,7 @@ export default function SingIn() {
   const [password, setPassword] = useState("");
   const [, setCookie] = useCookies(["Token"]);
   const isAuth = useSelector((state) => state.authSlice.isAuth);
-  // const user = useSelector((state) => state.userSlice.user);
-  // console.log("user", user);
-  // console.log(user);
+
   const dispatch = useDispatch();
 
   const {
@@ -38,6 +36,9 @@ export default function SingIn() {
       .then((res) => {
         if (res && res.user) {
           setCookie("Token", res.user.token);
+          FetchApiService.getCurrentUser().then((res) =>
+            dispatch(setUser(res.user))
+          );
           dispatch(setAuth(true));
         }
         console.log(res);

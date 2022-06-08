@@ -1,3 +1,5 @@
+@import "../../scss/variables.scss";
+
 .header {
   background-color: #fff;
   height: 80px;
@@ -12,7 +14,7 @@
   font-weight: 400;
   font-size: 18px;
   line-height: 28px;
-  color: rgba(0, 0, 0, 0.85);
+  color: $main-text-color;
   &:hover {
     color: #828588;
   }
@@ -25,13 +27,13 @@
 .btn {
   border-radius: 5px;
   cursor: pointer;
-  color: #52c41a;
+  color: $secondary-color;
   font-style: normal;
   font-weight: 400;
   font-size: 18px;
   line-height: 28px;
   background: transparent;
-  border: 1px solid #52c41a;
+  border: 1px solid $secondary-color;
   width: 109px;
   height: 51px;
   display: flex;
@@ -41,32 +43,33 @@
   &:active,
   &:hover {
     color: #fff;
-    border: 1px solid #52c41a;
-    background-color: #52c41a;
+    border: 1px solid $secondary-color;
+    background-color: $secondary-color;
     border-radius: 5px;
   }
 }
 
 .createArticle {
-  color: #52c41a;
-  border: 1px solid #52c41a;
+  color: $secondary-color;
+  border: 1px solid $secondary-color;
   border-radius: 5px;
   padding: 6px 10px;
 }
 
 .userBlock {
-  width: 30%;
+  width: max-content;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 5px;
+  gap: 25px;
 }
 
 .userInfoBlock {
   display: flex;
-  align-items: flex-end;
+  align-items: center;
   justify-content: space-between;
-  width: 25%;
+  width: max-content;
+  gap: 5px;
 }
 
 .avatar {
@@ -74,4 +77,10 @@
   height: 46px;
   border-radius: 50%;
   background-color: #fff;
+}
+
+.name {
+  font-size: 18px;
+  line-height: 28px;
+  margin: 0;
 }

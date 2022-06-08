@@ -1,14 +1,13 @@
 import { Link } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import classes from "./Header.module.scss";
 import RouteService from "../../services/routeService";
 import defaultAvatarImg from "../../assests/img/avatar.svg";
 
-import { setAuth } from "../../redux/slices/authSlice";
-
 function Header() {
   const isAuth = useSelector((state) => state.authSlice.isAuth);
-  const dispatch = useDispatch();
+  const user = useSelector((state) => state.userSlice.user);
+  console.log("user", user);
 
   const userWithoutAccount = (
     <div className={classes.userAuthorizationBlock}>
@@ -27,7 +26,7 @@ function Header() {
         Create article
       </Link>
       <div className={classes.userInfoBlock}>
-        <p>dskajd</p>
+        <p className={classes.name}>{user?.username}</p>
         <img src={defaultAvatarImg} alt='f' className={classes.avatar} />
       </div>
       <Link to={RouteService.signUpRoute} className={classes.btn}>
