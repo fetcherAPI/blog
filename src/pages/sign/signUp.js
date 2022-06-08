@@ -41,6 +41,7 @@ export default function SingUp() {
 
     FetchApiService.createUser(newUser)
       .then((res) => {
+        console.log("res", res);
         if (res && res.user) {
           setIsSingedUp(true);
           return;

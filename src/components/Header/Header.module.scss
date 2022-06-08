@@ -17,18 +17,21 @@
     color: #828588;
   }
 }
-.authorizationBlock {
+.userAuthorizationBlock {
   display: flex;
+  align-items: center;
+  gap: 5px;
 }
 .btn {
+  border-radius: 5px;
   cursor: pointer;
-  color: black;
+  color: #52c41a;
   font-style: normal;
   font-weight: 400;
   font-size: 18px;
   line-height: 28px;
   background: transparent;
-  border: none;
+  border: 1px solid #52c41a;
   width: 109px;
   height: 51px;
   display: flex;
@@ -42,4 +45,33 @@
     background-color: #52c41a;
     border-radius: 5px;
   }
+}
+
+.createArticle {
+  color: #52c41a;
+  border: 1px solid #52c41a;
+  border-radius: 5px;
+  padding: 6px 10px;
+}
+
+.userBlock {
+  width: 30%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 5px;
+}
+
+.userInfoBlock {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  width: 25%;
+}
+
+.avatar {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background-color: #fff;
 }

@@ -1,16 +1,22 @@
-import RouteService from "../../services/routeService";
-import { useForm } from "react-hook-form";
-import classes from "./sing.module.scss";
-import classnames from "classnames";
-import { useState } from "react";
-import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { Link, Navigate } from "react-router-dom";
+import classnames from "classnames";
+import classes from "./sing.module.scss";
 import { setAuth } from "../../redux/slices/authSlice";
+import { setUser } from "../../redux/slices/userSlice";
+import RouteService from "../../services/routeService";
+import FetchApiService from "../../services/fetchApiService";
+import { useCookies } from "react-cookie";
 
 export default function SingIn() {
   const [password, setPassword] = useState("");
-
+  const [, setCookie] = useCookies(["Token"]);
   const isAuth = useSelector((state) => state.authSlice.isAuth);
+  // const user = useSelector((state) => state.userSlice.user);
+  // console.log("user", user);
+  // console.log(user);
   const dispatch = useDispatch();
 
   const {
@@ -22,11 +28,26 @@ export default function SingIn() {
     mode: "onBlur",
   });
 
-  const onSubmit = (data) => {
-    alert(JSON.stringify(data));
-    dispatch(setAuth(true));
+  const onSubmit = async (data) => {
+    const { emailAddres, password } = data;
+    const user = {
+      email: emailAddres,
+      password,
+    };
+    FetchApiService.loginUser(user)
+      .then((res) => {
+        if (res && res.user) {
+          setCookie("Token", res.user.token);
+          dispatch(setAuth(true));
+        }
+        console.log(res);
+      })
+      .catch((err) => console.log("err", err));
+
     reset();
   };
+
+  if (isAuth) return <Navigate to={RouteService.mainRoute} />;
 
   return (
     <div className={classes.singUpBlock}>

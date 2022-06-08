@@ -1,22 +1,30 @@
+import { getCookie } from "react-use-cookie";
+
 class FetchApiService {
   constructor() {
     this.baseAPI = "https://kata.academy:8021/api";
     this.artilesPerPage = 10;
+    this.userToken = getCookie("Token");
   }
 
-  async sendRequest(url, value) {
+  async sendRequest(url, value, token) {
+    console.log(this.userToken);
+    const header = new Headers({
+      "Content-Type": "application/json;charset=utf-8",
+    });
+
+    // if (token) header.append("Authorization", token);
+
     const sendData = value
       ? {
           method: "post",
-          headers: {
-            "Content-Type": "application/json;charset=utf-8",
-          },
+          headers: header,
           body: JSON.stringify(value),
         }
       : {};
     try {
       const res = await fetch(url, sendData);
-
+      console.log("res", res);
       if (res.ok) {
         return await res.json();
       }
@@ -35,7 +43,7 @@ class FetchApiService {
   };
 
   createUser(data) {
-    console.log(data);
+    console.log(data, this.userToken);
     return this.sendRequest(
       `${this.baseAPI}/users`,
       {
@@ -43,6 +51,21 @@ class FetchApiService {
       },
       undefined,
       "post"
+    );
+  }
+
+  loginUser(data) {
+    console.log(data, this.usetToken);
+    return this.sendRequest(`${this.baseAPI}/users/login`, {
+      user: data,
+    });
+  }
+
+  getCurrentUser() {
+    return this.sendRequest(
+      `${this.baseAPI}/user`,
+      { name: "zha" },
+      this.userToken
     );
   }
 }
