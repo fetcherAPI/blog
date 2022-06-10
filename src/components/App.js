@@ -4,6 +4,7 @@ import { Articles, Article } from "./Articles/index";
 import RouteService from "../services/routeService";
 import SingUp from "../pages/sign/signUp";
 import SingIn from "../pages/sign/singIn";
+import Profile from "../pages/profile/Profile";
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
         <Route path={RouteService.articleRoute} element={<Article />} />
         <Route path={RouteService.signUpRoute} element={<SingUp />} />
         <Route path={RouteService.signInRoute} element={<SingIn />} />
+        <Route path={RouteService.profileRouter} element={<Profile />} />
       </Routes>
     </div>
   );

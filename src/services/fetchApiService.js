@@ -7,7 +7,7 @@ class FetchApiService {
     this.userToken = getCookie("Token");
   }
 
-  async sendRequest(url, value, token) {
+  async sendRequest(url, value, token, method) {
     console.log(this.userToken);
     const headers = new Headers({
       "Content-Type": "application/json;charset=utf-8",
@@ -25,6 +25,9 @@ class FetchApiService {
           method: "get",
           headers: headers,
         };
+
+    if (method) sendData.method = method;
+
     try {
       const res = await fetch(url, sendData);
       if (res.ok) {
@@ -57,13 +60,26 @@ class FetchApiService {
   }
 
   loginUser(data) {
-    return this.sendRequest(`${this.baseAPI}/users/login`, {
-      user: data,
-    });
+    return this.sendRequest(
+      `${this.baseAPI}/users/login`,
+      {
+        user: data,
+      },
+      "post"
+    );
   }
 
   getCurrentUser() {
     return this.sendRequest(`${this.baseAPI}/user`, null, this.userToken);
+  }
+
+  updateUserData(data) {
+    return this.sendRequest(
+      `${this.baseAPI}/user`,
+      { user: data },
+      this.userToken,
+      "put"
+    );
   }
 }
 

@@ -54,6 +54,10 @@
   border: 1px solid $secondary-color;
   border-radius: 5px;
   padding: 6px 10px;
+  &:hover {
+    background-color: $secondary-color;
+    color: #fff;
+  }
 }
 
 .userBlock {
@@ -83,4 +87,12 @@
   font-size: 18px;
   line-height: 28px;
   margin: 0;
+}
+
+.btnLogout {
+  border: 1px solid $main-text-color;
+  color: $main-text-color;
+  &:hover {
+    background-color: $danger-color;
+  }
 }

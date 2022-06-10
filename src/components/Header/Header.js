@@ -1,13 +1,23 @@
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
-import classes from "./Header.module.scss";
+import { memo } from "react";
+import classnames from "classnames";
+import { setAuth } from "../../redux/slices/authSlice";
 import RouteService from "../../services/routeService";
+import classes from "./Header.module.scss";
 import defaultAvatarImg from "../../assests/img/avatar.svg";
 
 function Header() {
   const isAuth = useSelector((state) => state.authSlice.isAuth);
   const user = useSelector((state) => state.userSlice.user);
-  console.log("user", user);
+
+  const dispatch = useDispatch();
+
+  const avatar = user?.image ? user.image : defaultAvatarImg;
+
+  const logOut = () => {
+    dispatch(setAuth(false));
+  };
 
   const userWithoutAccount = (
     <div className={classes.userAuthorizationBlock}>
@@ -27,9 +37,15 @@ function Header() {
       </Link>
       <div className={classes.userInfoBlock}>
         <p className={classes.name}>{user?.username}</p>
-        <img src={defaultAvatarImg} alt='f' className={classes.avatar} />
+        <Link to={RouteService.profileRouter}>
+          <img src={avatar} alt='f' className={classes.avatar} />
+        </Link>
       </div>
-      <Link to={RouteService.signUpRoute} className={classes.btn}>
+      <Link
+        to={RouteService.articlesRoute}
+        className={classnames([classes.btn, classes.btnLogout])}
+        onClick={logOut}
+      >
         Log out
       </Link>
     </div>
@@ -37,7 +53,7 @@ function Header() {
 
   return (
     <div className={classes.header}>
-      <Link className={classes.logo} to='/articles'>
+      <Link className={classes.logo} to={RouteService.articlesRoute}>
         Realworld Blog
       </Link>
       {isAuth ? userWithAccount : userWithoutAccount}
@@ -45,4 +61,4 @@ function Header() {
   );
 }
 
-export default Header;
+export default memo(Header);

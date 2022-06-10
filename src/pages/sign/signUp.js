@@ -38,7 +38,7 @@ export default function SingUp() {
       email: emailAddres,
       password,
     };
-
+    reset();
     FetchApiService.createUser(newUser)
       .then((res) => {
         console.log("res", res);
@@ -54,7 +54,6 @@ export default function SingUp() {
         setIsError(true);
         console.log("isError", err, isError);
       });
-    reset();
   };
 
   const successSigned = isSingedUp && (

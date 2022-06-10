@@ -41,7 +41,6 @@ export default function SingIn() {
           );
           dispatch(setAuth(true));
         }
-        console.log(res);
       })
       .catch((err) => console.log("err", err));
 
