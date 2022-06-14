@@ -10,6 +10,7 @@ import { useCookies } from "react-cookie";
 
 function Profile() {
   const [, setCookie] = useCookies(["Token"]);
+
   const {
     register,
     handleSubmit,

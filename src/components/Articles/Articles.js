@@ -6,10 +6,13 @@ import FetchApiService from "../../services/fetchApiService";
 import { getDate } from "../../services/getDateService";
 import classes from "./Articles.module.scss";
 import { Spiner } from "../Spiner/Spiner";
+import { getCookie } from "react-use-cookie";
 
 function Articles() {
   const articles = useSelector((state) => state.articlesSlice.articles);
   const dispatch = useDispatch();
+
+  const token = getCookie("Token");
 
   const [isLoading, setIsLoading] = useState(true);
 
@@ -25,17 +28,28 @@ function Articles() {
       });
   }, []);
 
+  const onClickLike = (slug) => {
+    FetchApiService.addToFovorite(slug, token).then((res) => {
+      console.log(res);
+      console.log(res.article.favoritesCount);
+      console.log(res.article.favoritesCount + 1);
+    });
+  };
+
   const artticlesList = articles.map((article) => {
     const { username, image } = article.author;
-    const { createdAt, title, favoritesCount, description, tagList, slug } =
+    let { createdAt, title, favoritesCount, description, tagList, slug } =
       article;
+
     return (
       <div className={classes.articleBlock} key={slug}>
         <div className={classes.header}>
           <Link className={classes.title} to={`/articles/${slug}`}>
             {title}
           </Link>
-          <button className={classes.like}>{favoritesCount}</button>
+          <button className={classes.like} onClick={() => onClickLike(slug)}>
+            {favoritesCount}
+          </button>
           <div className={classes.info}>
             <div className={classes.text}>
               <h4 className={classes.userName}>{username}</h4>

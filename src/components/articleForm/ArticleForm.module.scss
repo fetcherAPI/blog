@@ -1,0 +1,94 @@
+@import "../../scss/variables.scss";
+
+.ArticleFrom {
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  gap: 21px;
+  width: 80%;
+  margin: 0 auto;
+  margin-top: 26px;
+  box-shadow: $box-shadow;
+  border-radius: 5px;
+  padding: 48px 32px;
+}
+
+.title {
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 28px;
+  color: $main-text-color;
+  text-align: center;
+}
+
+.input {
+  padding: 8px 12px;
+  width: 100%;
+  height: 40px;
+  border: 1px solid #d9d9d9;
+  color: #494949;
+  font-size: 18px;
+  border-radius: 4px;
+  &Error {
+    border: 1px solid $danger-color;
+  }
+}
+
+.labelTags {
+  display: flex;
+  column-gap: 5px;
+}
+
+.inputText {
+  height: 200px;
+  resize: none;
+}
+
+.errorBlock {
+  color: $danger-color;
+}
+
+.tagBlock {
+  display: flex;
+  flex-wrap: wrap;
+
+  gap: 5px;
+}
+
+.tagList {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  gap: 5px;
+}
+
+.btnDelete {
+  color: $danger-color;
+  border: 1px solid $danger-color;
+  border-radius: 5px;
+  padding: 5px 32px;
+  &:hover {
+    background-color: $danger-color;
+    color: #fff;
+  }
+}
+.btnAdd {
+  border: 1px solid $main-color;
+  border-radius: 5px;
+  color: $main-color;
+  padding: 5px 42px;
+  align-self: end;
+  &:hover {
+    background-color: $main-color;
+    color: #fff;
+  }
+}
+
+.submit {
+  color: #fff;
+  background-color: $main-color;
+  border-radius: 5px;
+  border: 1px solid $main-color;
+  height: 40px;
+  width: 50%;
+}

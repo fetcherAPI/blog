@@ -21,6 +21,10 @@ class RoutService {
   get profileRouter() {
     return `/profile`;
   }
+
+  get createArticleRout() {
+    return `/create-article`;
+  }
 }
 
 export default new RoutService();

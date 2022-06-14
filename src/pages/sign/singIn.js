@@ -36,9 +36,10 @@ export default function SingIn() {
       .then((res) => {
         if (res && res.user) {
           setCookie("Token", res.user.token);
-          FetchApiService.getCurrentUser().then((res) =>
-            dispatch(setUser(res.user))
-          );
+          FetchApiService.getCurrentUser(res.user.token).then((res) => {
+            console.log(res);
+            dispatch(setUser(res.user));
+          });
           dispatch(setAuth(true));
         }
       })

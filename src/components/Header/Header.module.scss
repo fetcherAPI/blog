@@ -94,5 +94,6 @@
   color: $main-text-color;
   &:hover {
     background-color: $danger-color;
+    border: 1px solid $danger-color;
   }
 }

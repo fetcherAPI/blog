@@ -32,7 +32,10 @@ function Header() {
 
   const userWithAccount = (
     <div className={classes.userBlock}>
-      <Link to={RouteService.mainRoute} className={classes.createArticle}>
+      <Link
+        to={RouteService.createArticleRout}
+        className={classes.createArticle}
+      >
         Create article
       </Link>
       <div className={classes.userInfoBlock}>

@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   articles: [],
   article: {},
+  likeCount: 0,
 };
 
 export const articlesSlice = createSlice({

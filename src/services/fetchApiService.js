@@ -69,8 +69,8 @@ class FetchApiService {
     );
   }
 
-  getCurrentUser() {
-    return this.sendRequest(`${this.baseAPI}/user`, null, this.userToken);
+  getCurrentUser(token) {
+    return this.sendRequest(`${this.baseAPI}/user`, null, token);
   }
 
   updateUserData(data) {
@@ -79,6 +79,35 @@ class FetchApiService {
       { user: data },
       this.userToken,
       "put"
+    );
+  }
+
+  createArticle(data, token) {
+    return this.sendRequest(
+      `${this.baseAPI}/articles`,
+      {
+        article: data,
+      },
+      token,
+      "post"
+    );
+  }
+
+  addToFovorite = (slug, token) => {
+    return this.sendRequest(
+      `${this.baseAPI}/articles/${slug}/favorite`,
+      null,
+      token,
+      "post"
+    );
+  };
+
+  removeFromFovorite(slug, token) {
+    return this.sendRequest(
+      `${this.baseAPI}/articles/${slug}/favorite`,
+      null,
+      token,
+      "delete"
     );
   }
 }
