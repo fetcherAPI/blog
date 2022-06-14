@@ -19,29 +19,18 @@ function CreateArticle() {
     },
     {
       id: 2,
-      name: "reactTag",
-      value: "",
-    },
-    {
-      id: 3,
-      name: "reduxTag",
-      value: "",
-    },
-    {
-      id: 4,
-      name: "hooo",
+      name: "Tag",
       value: "",
     },
   ];
 
   const onSubmit = async (data) => {
-    console.log(data);
     const token = getCookie("Token");
     const dataToSend = {
       title: data.title,
       description: data.description,
       body: data.text,
-      tagList: ["programming", "react", "redux"],
+      tagList: data.tags.map((tag) => tag.value),
     };
 
     FetchApiService.createArticle(dataToSend, token).then((res) => {

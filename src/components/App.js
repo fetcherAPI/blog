@@ -1,11 +1,12 @@
 import Header from "./Header";
 import { Routes, Route } from "react-router-dom";
-import { Articles, Article } from "./Articles/index";
+import { Articles } from "./Articles/index";
 import RouteService from "../services/routeService";
 import SingUp from "../pages/sign/signUp";
 import SingIn from "../pages/sign/singIn";
 import Profile from "../pages/profile/Profile";
 import CreateArticle from "../pages/article/createArticle";
+import ArticleDetails from "./Articles/ArticleDetails";
 
 function App() {
   return (
@@ -14,7 +15,7 @@ function App() {
       <Routes>
         <Route path={RouteService.mainRoute} element={<Articles />} />
         <Route path={RouteService.articlesRoute} element={<Articles />} exact />
-        <Route path={RouteService.articleRoute} element={<Article />} />
+        <Route path={RouteService.articleRoute} element={<ArticleDetails />} />
         <Route path={RouteService.signUpRoute} element={<SingUp />} />
         <Route path={RouteService.signInRoute} element={<SingIn />} />
         <Route path={RouteService.profileRouter} element={<Profile />} />

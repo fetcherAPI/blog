@@ -1,7 +1,7 @@
 @import "../../scss/variables.scss";
 
 .list {
-  padding: 26px;
+  padding: 26px 0;
   width: 90%;
   margin: 0 auto;
   display: flex;
@@ -34,6 +34,19 @@
     width: 20px;
     height: 20px;
     background: url(../../assests/img/like.svg) no-repeat;
+    background-size: contain;
+    margin-right: 2px;
+  }
+}
+
+.liked {
+  &::before {
+    content: "";
+    top: 3px;
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    background: url(../../assests/img/liked.png) no-repeat;
     background-size: contain;
     margin-right: 2px;
   }

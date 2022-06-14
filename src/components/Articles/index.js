@@ -1,4 +1,4 @@
 import Articles from "./Articles";
-import Article from "./Article";
+import ArticleDetails from "./ArticleDetails";
 
-export { Articles, Article };
+export { Articles, ArticleDetails };

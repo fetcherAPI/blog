@@ -1,23 +1,31 @@
 import classnames from "classnames";
 import PropTypes from "prop-types";
-import { useForm } from "react-hook-form";
+import { useForm, useFieldArray } from "react-hook-form";
 import { Navigate } from "react-router-dom";
 import RouteService from "../../services/routeService";
 import classes from "./ArticleForm.module.scss";
 
-function ArticleFrom({ title, isArticleCreated, onSubmit, tegs }) {
+function ArticleFrom({ title, isArticleCreated, onSubmit }) {
   const {
     register,
     handleSubmit,
+    control,
     formState: { errors },
   } = useForm({
     mode: "all",
   });
 
-  const tagsInput = tegs.map((tag) => {
-    console.log("tag", tag.name);
-    const inputName = tag.name;
+  const { fields, append, remove } = useFieldArray({ name: "tags", control });
 
+  const onClickDeleteBtn = (index) => {
+    remove(index);
+  };
+
+  const onClickAddBtn = () => {
+    append({ value: "" });
+  };
+
+  const tagsInput = fields.map((tag, i) => {
     return (
       <label key={tag.id} className={classes.labelTags}>
         <input
@@ -27,14 +35,22 @@ function ArticleFrom({ title, isArticleCreated, onSubmit, tegs }) {
             classes.input,
             errors.emailAddres ? classes.inputError : ""
           )}
-          {...register(`${inputName}`, {
+          name={`tags[${i}]`}
+          {...register(`tags.${i}.value`, {
             required: "tag is required",
           })}
         />
         <div className={classes.errorBlock}>
-          {errors?.inputName && <p>{errors?.inputName?.message}</p>}
+          {errors?.tags && <p>{errors?.tags?.message}</p>}
         </div>
-        <button className={classnames([classes.btn, classes.btnDelete])}>
+        <button
+          onClick={(e) => {
+            e.preventDefault();
+            onClickDeleteBtn(e.target.value);
+          }}
+          className={classnames([classes.btn, classes.btnDelete])}
+          value={i}
+        >
           Delete
         </button>
       </label>
@@ -117,7 +133,13 @@ function ArticleFrom({ title, isArticleCreated, onSubmit, tegs }) {
       </label>
       <div className={classes.tagBlock}>
         <ul className={classes.tagList}>Tags{tagsInput}</ul>
-        <button className={classnames([classes.btn, classes.btnAdd])}>
+        <button
+          onClick={(e) => {
+            e.preventDefault();
+            onClickAddBtn();
+          }}
+          className={classnames([classes.btn, classes.btnAdd])}
+        >
           Add Tag
         </button>
       </div>

@@ -1,30 +1,79 @@
-import { memo, useEffect } from "react";
-import { useParams } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
-import FetchApiService from "../../services/fetchApiService";
-import { setArticle } from "../../redux/slices/articlesSlice";
+import { useState } from "react";
+import { useSelector } from "react-redux/es/exports";
+import { Link, Navigate } from "react-router-dom";
+import { getCookie } from "react-use-cookie";
+import classnames from "classnames";
+import fetchApiService from "../../services/fetchApiService";
+import { getDate } from "../../services/getDateService";
+import RouteService from "../../services/routeService";
 import classes from "./Articles.module.scss";
 
-function Article() {
-  const { slug } = useParams();
-  const article = useSelector((state) => state.articlesSlice.article);
-  const dispatch = useDispatch();
+function Article(props) {
+  const { slug } = props;
+  const token = getCookie("Token");
+  const isAuth = useSelector((state) => state.authSlice.isAuth);
 
-  useEffect(() => {
-    FetchApiService.getArticle(slug).then((res) => dispatch(setArticle(res)));
-  }, []);
+  const [content, setContent] = useState(props);
+  const [isRedirect, setIsRedirect] = useState(false);
+  const onClickLike = (slug) => {
+    if (isAuth) {
+      if (!content.favorited) {
+        fetchApiService
+          .addToFovorite(slug, token)
+          .then((res) => setContent(res.article));
+      } else {
+        fetchApiService
+          .removeFromFovorite(slug, token)
+          .then((res) => setContent(res.article));
+      }
+    } else {
+      setIsRedirect(true);
+    }
+  };
 
+  if (isRedirect) return <Navigate to={RouteService.signInRoute} />;
+
+  const { image, username } = content.author;
   return (
-    <div className={classes.singleArticle}>
-      <h1>{article?.article?.slug}</h1>
-      <div className={classes.markDown}>
-        Lorem, ipsum dolor sit amet consectetur adipisicing elit. Tenetur
-        sapiente quaerat iure consequatur neque pariatur omnis enim quidem.
-        Exercitationem aut dicta soluta accusamus pariatur expedita
-        reprehenderit ea placeat ipsum tenetur!
+    <li className={classes.articleBlock}>
+      <div className={classes.header}>
+        <Link className={classes.title} to={`/articles/${slug}`}>
+          {content.title}
+        </Link>
+        <button
+          className={
+            !content.favorited
+              ? classes.like
+              : classnames([classes.like, classes.liked])
+          }
+          onClick={() => onClickLike(slug)}
+        >
+          {content.favoritesCount}
+        </button>
+        <div className={classes.info}>
+          <div className={classes.text}>
+            <h4 className={classes.userName}>{username}</h4>
+            <p className={classes.createDate}>{getDate(content.createdAt)}</p>
+          </div>
+          <img className={classes.avatar} src={image} alt='avatar' />
+        </div>
       </div>
-    </div>
+      <div className={classes.tagList}>
+        {content.tagList.map((tag, i) => {
+          return (
+            <p className={classes.tag} key={i}>
+              {tag}
+            </p>
+          );
+        })}
+      </div>
+      <div className={classes.description}>
+        <p>{content.description}</p>
+      </div>
+    </li>
   );
 }
 
-export default memo(Article);
+Article.propTypes = {};
+
+export default Article;

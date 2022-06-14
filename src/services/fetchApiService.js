@@ -8,7 +8,6 @@ class FetchApiService {
   }
 
   async sendRequest(url, value, token, method) {
-    console.log(this.userToken);
     const headers = new Headers({
       "Content-Type": "application/json;charset=utf-8",
     });
@@ -48,7 +47,6 @@ class FetchApiService {
   };
 
   createUser(data) {
-    console.log(data, this.userToken);
     return this.sendRequest(
       `${this.baseAPI}/users`,
       {
