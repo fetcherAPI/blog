@@ -5,7 +5,7 @@ import { ReactMarkdown } from "react-markdown/lib/react-markdown";
 import { getCookie } from "react-use-cookie";
 import FetchApiService from "../../services/fetchApiService";
 import { setArticle } from "../../redux/slices/articlesSlice";
-import { message, Popconfirm } from "antd";
+import { Popconfirm } from "antd";
 import classes from "./Articles.module.scss";
 import { Link } from "react-router-dom";
 import classnames from "classnames";
@@ -16,8 +16,6 @@ import routeService from "../../services/routeService";
 function ArticleDetails() {
   const { slug } = useParams();
   const [isDeleted, setIsDeleted] = useState(false);
-
-  console.log(useParams);
 
   const dispatch = useDispatch();
   const article = useSelector((state) => state.articlesSlice.article);

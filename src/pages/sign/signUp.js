@@ -27,7 +27,7 @@ export default function SingUp() {
     reset,
     formState: { errors },
   } = useForm({
-    mode: "all",
+    mode: "onBlur",
   });
 
   const onSubmit = async (data) => {
@@ -41,7 +41,6 @@ export default function SingUp() {
     reset();
     FetchApiService.createUser(newUser)
       .then((res) => {
-        console.log("res", res);
         if (res && res.user) {
           setIsSingedUp(true);
           return;
@@ -52,7 +51,9 @@ export default function SingUp() {
       })
       .catch((err) => {
         setIsError(true);
-        console.log("isError", err, isError);
+        setTimeout(() => {
+          setIsError(false);
+        }, 3000);
       });
   };
 

@@ -1,17 +1,18 @@
 import { useSelector, useDispatch } from "react-redux";
-import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link, Navigate } from "react-router-dom";
+import { useCookies } from "react-cookie";
 import classnames from "classnames";
+import { Alert } from "antd";
 import classes from "./sing.module.scss";
 import { setAuth } from "../../redux/slices/authSlice";
 import { setUser } from "../../redux/slices/userSlice";
 import RouteService from "../../services/routeService";
 import FetchApiService from "../../services/fetchApiService";
-import { useCookies } from "react-cookie";
+import { useState } from "react";
 
 export default function SingIn() {
-  const [password, setPassword] = useState("");
+  const [isError, setIsError] = useState(false);
   const [, setCookie] = useCookies(["Token"]);
   const isAuth = useSelector((state) => state.authSlice.isAuth);
 
@@ -43,15 +44,20 @@ export default function SingIn() {
           dispatch(setAuth(true));
         }
       })
-      .catch((err) => console.log("err", err));
+      .catch((err) => {
+        setIsError(true);
+        setTimeout(() => {
+          setIsError(false);
+        }, 3000);
+      });
 
     reset();
   };
 
   if (isAuth) return <Navigate to={RouteService.mainRoute} />;
 
-  return (
-    <div className={classes.singUpBlock}>
+  const loginForm = (
+    <>
       <form className={classes.form} onSubmit={handleSubmit(onSubmit)}>
         <h1 className={classes.title}>Sign In</h1>
 
@@ -96,8 +102,6 @@ export default function SingIn() {
                 message: "Your password needs to be at least 6 characters.",
               },
             })}
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
           />
           <div className={classes.errorBlock}>
             {errors?.password && <p>{errors?.password?.message}</p>}
@@ -111,6 +115,20 @@ export default function SingIn() {
           Sign Up
         </Link>
       </span>
+    </>
+  );
+
+  return (
+    <div className={classes.singUpBlock}>
+      {isError ? (
+        <Alert
+          message='Error'
+          description='invalid password or email'
+          type='error'
+          showIcon
+        />
+      ) : null}
+      {loginForm}
     </div>
   );
 }

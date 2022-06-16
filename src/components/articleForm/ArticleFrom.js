@@ -5,7 +5,7 @@ import { Navigate } from "react-router-dom";
 import RouteService from "../../services/routeService";
 import classes from "./ArticleForm.module.scss";
 
-function ArticleFrom({ title, isArticleCreated, onSubmit, content }) {
+function ArticleFrom({ title, isArticleCreated, onSubmit }) {
   const {
     register,
     handleSubmit,
