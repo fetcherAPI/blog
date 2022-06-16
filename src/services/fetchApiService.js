@@ -3,7 +3,8 @@ import { getCookie } from "react-use-cookie";
 class FetchApiService {
   constructor() {
     this.baseAPI = "https://kata.academy:8021/api";
-    this.artilesPerPage = 30;
+    this.artilesPerPage = 5;
+    this.offset = 1;
     this.userToken = getCookie("Token");
   }
 
@@ -37,9 +38,11 @@ class FetchApiService {
       throw new Error(error);
     }
   }
-  getArticles() {
+  getArticles(page) {
     return this.sendRequest(
-      `${this.baseAPI}/articles?limit=${this.artilesPerPage}`
+      `${this.baseAPI}/articles?limit=${this.artilesPerPage}&offset=${
+        (page - this.offset) * this.artilesPerPage
+      }`
     );
   }
   getArticle = (slug) => {

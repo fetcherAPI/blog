@@ -1,7 +1,6 @@
 import { useSelector, useDispatch } from "react-redux";
 import { useForm } from "react-hook-form";
 import { Link, Navigate } from "react-router-dom";
-import { useCookies } from "react-cookie";
 import classnames from "classnames";
 import { Alert } from "antd";
 import classes from "./sing.module.scss";
@@ -10,10 +9,10 @@ import { setUser } from "../../redux/slices/userSlice";
 import RouteService from "../../services/routeService";
 import FetchApiService from "../../services/fetchApiService";
 import { useState } from "react";
+import { getCookie, setCookie } from "react-use-cookie";
 
 export default function SingIn() {
   const [isError, setIsError] = useState(false);
-  const [, setCookie] = useCookies(["Token"]);
   const isAuth = useSelector((state) => state.authSlice.isAuth);
 
   const dispatch = useDispatch();
@@ -37,8 +36,8 @@ export default function SingIn() {
       .then((res) => {
         if (res && res.user) {
           setCookie("Token", res.user.token);
-          FetchApiService.getCurrentUser(res.user.token).then((res) => {
-            console.log(res);
+          console.log("res", res);
+          FetchApiService.getCurrentUser(getCookie("Token")).then((res) => {
             dispatch(setUser(res.user));
           });
           dispatch(setAuth(true));
