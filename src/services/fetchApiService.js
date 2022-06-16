@@ -3,7 +3,7 @@ import { getCookie } from "react-use-cookie";
 class FetchApiService {
   constructor() {
     this.baseAPI = "https://kata.academy:8021/api";
-    this.artilesPerPage = 10;
+    this.artilesPerPage = 30;
     this.userToken = getCookie("Token");
   }
 

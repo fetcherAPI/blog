@@ -1,5 +1,5 @@
 import { memo, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { Navigate, useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { ReactMarkdown } from "react-markdown/lib/react-markdown";
 import { getCookie } from "react-use-cookie";
@@ -10,9 +10,13 @@ import classes from "./Articles.module.scss";
 import { Link } from "react-router-dom";
 import classnames from "classnames";
 import { getDate } from "../../services/getDateService.js";
+import { useState } from "react";
+import routeService from "../../services/routeService";
 
 function ArticleDetails() {
   const { slug } = useParams();
+  const [isDeleted, setIsDeleted] = useState(false);
+
   console.log(useParams);
 
   const dispatch = useDispatch();
@@ -22,11 +26,14 @@ function ArticleDetails() {
     FetchApiService.deleteArticle(slug, getCookie("Token")).catch((error) =>
       console.log("error", error)
     );
+    setIsDeleted(true);
   };
 
   useEffect(() => {
     FetchApiService.getArticle(slug).then((res) => dispatch(setArticle(res)));
   }, []);
+
+  if (isDeleted) return <Navigate to={routeService.mainRoute} />;
 
   return article?.article ? (
     <div className={classes.singleArticle}>

@@ -26,8 +26,6 @@ function UpdateArticle() {
       .catch((error) => console.log("error", error));
   }, []);
 
-  console.log(content);
-
   const onSubmit = async (data) => {
     const dataToSend = {
       title: data.title,
@@ -42,7 +40,7 @@ function UpdateArticle() {
 
     reset();
   };
-
+  console.log("", isArticleUpdated);
   if (isArticleUpdated) return <Navigate to={RouteService.articlesRoute} />;
 
   return (
