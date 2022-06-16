@@ -1,5 +1,4 @@
 import { useSelector, useDispatch } from "react-redux";
-
 import { useEffect, useState } from "react";
 import { setArticles } from "../../redux/slices/articlesSlice";
 import FetchApiService from "../../services/fetchApiService";

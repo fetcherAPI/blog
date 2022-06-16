@@ -5,7 +5,7 @@ import { Navigate } from "react-router-dom";
 import RouteService from "../../services/routeService";
 import classes from "./ArticleForm.module.scss";
 
-function ArticleFrom({ title, isArticleCreated, onSubmit }) {
+function ArticleFrom({ title, isArticleCreated, onSubmit, content }) {
   const {
     register,
     handleSubmit,
@@ -145,7 +145,7 @@ function ArticleFrom({ title, isArticleCreated, onSubmit }) {
       </div>
       <button autoComplete='on' type='submit' className={classes.submit}>
         {" "}
-        Sand
+        Send
       </button>
     </form>
   );

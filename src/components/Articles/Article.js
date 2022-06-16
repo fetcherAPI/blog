@@ -10,6 +10,7 @@ import classes from "./Articles.module.scss";
 
 function Article(props) {
   const { slug } = props;
+
   const token = getCookie("Token");
   const isAuth = useSelector((state) => state.authSlice.isAuth);
 
@@ -34,6 +35,7 @@ function Article(props) {
   if (isRedirect) return <Navigate to={RouteService.signInRoute} />;
 
   const { image, username } = content.author;
+
   return (
     <li className={classes.articleBlock}>
       <div className={classes.header}>
@@ -51,11 +53,13 @@ function Article(props) {
           {content.favoritesCount}
         </button>
         <div className={classes.info}>
-          <div className={classes.text}>
-            <h4 className={classes.userName}>{username}</h4>
-            <p className={classes.createDate}>{getDate(content.createdAt)}</p>
+          <div className={classes.userBlock}>
+            <div className={classes.text}>
+              <h4 className={classes.userName}>{username}</h4>
+              <p className={classes.createDate}>{getDate(content.createdAt)}</p>
+            </div>
+            <img className={classes.avatar} src={image} alt='avatar' />
           </div>
-          <img className={classes.avatar} src={image} alt='avatar' />
         </div>
       </div>
       <div className={classes.tagList}>

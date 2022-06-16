@@ -11,19 +11,6 @@ function CreateArticle() {
 
   const { reset } = useForm();
 
-  const tegs = [
-    {
-      id: 1,
-      name: "mobxTag",
-      value: "",
-    },
-    {
-      id: 2,
-      name: "Tag",
-      value: "",
-    },
-  ];
-
   const onSubmit = async (data) => {
     const token = getCookie("Token");
     const dataToSend = {
@@ -47,7 +34,6 @@ function CreateArticle() {
       title={"Create article"}
       isArticleCreated={isArticleCreated}
       onSubmit={onSubmit}
-      tegs={tegs}
     />
   );
 }

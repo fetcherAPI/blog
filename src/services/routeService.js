@@ -11,6 +11,10 @@ class RoutService {
     return `/articles/:slug`;
   }
 
+  get updateArticleRout() {
+    return `/articles/:slug/edit/`;
+  }
+
   get signInRoute() {
     return `/sign-in`;
   }

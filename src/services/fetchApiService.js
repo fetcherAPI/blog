@@ -108,6 +108,24 @@ class FetchApiService {
       "delete"
     );
   }
+
+  updateArticle = (data, slug, token) => {
+    return this.sendRequest(
+      `${this.baseAPI}/articles/${slug}`,
+      { article: data },
+      token,
+      "put"
+    );
+  };
+
+  deleteArticle = (slug, token) => {
+    return this.sendRequest(
+      `${this.baseAPI}/articles/${slug}`,
+      null,
+      token,
+      "delete"
+    );
+  };
 }
 
 export default new FetchApiService();
