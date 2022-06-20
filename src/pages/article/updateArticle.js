@@ -16,7 +16,6 @@ function UpdateArticle() {
 
   const token = getCookie("Token");
   const { slug } = useParams();
-  console.log(slug);
 
   useEffect(() => {
     FetchApiService.getArticle(slug)
@@ -40,7 +39,7 @@ function UpdateArticle() {
 
     reset();
   };
-  console.log("", isArticleUpdated);
+
   if (isArticleUpdated) return <Navigate to={RouteService.articlesRoute} />;
 
   return (

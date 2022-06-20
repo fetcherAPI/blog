@@ -1,11 +1,13 @@
 import classnames from "classnames";
 import PropTypes from "prop-types";
+import { useState } from "react";
 import { useForm, useFieldArray } from "react-hook-form";
 import { Navigate } from "react-router-dom";
+import { debounce } from "lodash";
 import RouteService from "../../services/routeService";
 import classes from "./ArticleForm.module.scss";
 
-function ArticleFrom({ title, isArticleCreated, onSubmit }) {
+function ArticleFrom({ title, isArticleCreated, onSubmit, content }) {
   const {
     register,
     handleSubmit,
@@ -14,6 +16,24 @@ function ArticleFrom({ title, isArticleCreated, onSubmit }) {
   } = useForm({
     mode: "all",
   });
+
+  const [titleUpdate, setTitleUpdate] = useState(content?.title);
+  const [descriptionUpdate, setDescriptionUpdate] = useState(
+    content?.description
+  );
+  const [bodyUpdate, setBodyUpdate] = useState(content?.body);
+
+  const onChangeTitle = debounce((value) => {
+    setTitleUpdate(value);
+  }, 200);
+
+  const onChangeDescription = debounce((value) => {
+    setDescriptionUpdate(value);
+  }, 200);
+
+  const onChangeBody = debounce((value) => {
+    setBodyUpdate(value);
+  }, 200);
 
   const { fields, append, remove } = useFieldArray({ name: "tags", control });
 
@@ -63,12 +83,16 @@ function ArticleFrom({ title, isArticleCreated, onSubmit }) {
     <form onSubmit={handleSubmit(onSubmit)} className={classes.ArticleFrom}>
       <h1 className={classes.title}>{title}</h1>
 
-      <label className={classes.label}>
+      <label
+        className={classes.label}
+        onChange={(e) => onChangeTitle(e.target.value)}
+      >
         Title
         <br />
         <input
           autoComplete='on'
           placeholder='Title'
+          value={titleUpdate}
           className={classnames(
             classes.input,
             errors.emailAddres ? classes.inputError : ""
@@ -86,12 +110,16 @@ function ArticleFrom({ title, isArticleCreated, onSubmit }) {
         </div>
       </label>
 
-      <label className={classes.label}>
+      <label
+        className={classes.label}
+        onChange={(e) => onChangeDescription(e.target.value)}
+      >
         Short description
         <br />
         <input
           autoComplete='on'
           placeholder='Short description'
+          value={descriptionUpdate}
           className={classnames(
             classes.input,
             errors.emailAddres ? classes.inputError : ""
@@ -108,12 +136,16 @@ function ArticleFrom({ title, isArticleCreated, onSubmit }) {
           {errors?.description && <p>{errors?.description?.message}</p>}
         </div>
       </label>
-      <label className={classes.label}>
+      <label
+        className={classes.label}
+        onChange={(e) => onChangeBody(e.target.value)}
+      >
         Text
         <br />
         <textarea
           autoComplete='on'
           placeholder='text'
+          value={bodyUpdate}
           className={classnames(
             classes.input,
             classes.inputText,
