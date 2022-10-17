@@ -45,8 +45,9 @@ class FetchApiService {
       }`
     );
   }
-  getArticle = (slug) => {
-    return this.sendRequest(`${this.baseAPI}/articles/${slug}`);
+  getArticle = async (slug) => {
+    const res = await this.sendRequest(`${this.baseAPI}/articles/${slug}`);
+    return res;
   };
 
   createUser(data) {

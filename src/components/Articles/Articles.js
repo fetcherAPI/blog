@@ -1,6 +1,6 @@
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
-import { Pagination } from "antd";
+import { Pagination, Alert } from "antd";
 import { setArticles } from "../../redux/slices/articlesSlice";
 import FetchApiService from "../../services/fetchApiService";
 import classes from "./Articles.module.scss";
@@ -12,10 +12,14 @@ function Articles() {
   const dispatch = useDispatch();
   const [totalArticlesCount, setTotalCountArticles] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState({});
 
   useEffect(() => {
     setIsLoading(true);
     getArticles();
+    return () => {
+      setError({});
+    };
   }, []);
 
   const getArticles = async (page = 1) => {
@@ -26,6 +30,7 @@ function Articles() {
       })
       .catch((error) => {
         console.log("error", error);
+        setError(error);
       })
       .finally(() => {
         setIsLoading(false);
@@ -42,6 +47,14 @@ function Articles() {
 
   return (
     <ul className={classes.list}>
+      {error.message && (
+        <Alert
+          message={error.message}
+          description='server could not answer.'
+          type='error'
+          showIcon
+        />
+      )}
       {isLoading ? <Spiner /> : artticlesList}
       {totalArticlesCount ? (
         <Pagination
